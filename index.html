@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markorð: 141 - 150 algengustu í íslenskum námsbókum</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background-color: #f0f4f8; 
+            margin: 0;
+            padding: 2vh 5vw; 
+            min-height: 95vh; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+            background: white; 
+            padding: 30px 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            max-height: 100%;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #1a73e8;
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        /* Framvindustika */
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 20px;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #34a853;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        #counter { font-size: 1.2em; color: #666; font-weight: bold; margin-bottom: 10px; }
+
+        .lang-selector {
+            margin-bottom: 20px;
+            background: #fff3e0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            border: 1px solid #ffcc80;
+        }
+
+        .lang-selector select {
+            padding: 8px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            margin-left: 10px;
+            max-width: 300px;
+        }
+        
+        #target { 
+            font-size: 4em; 
+            margin: 10px 0; 
+            color: #222; 
+            font-weight: bold;
+        }
+        
+        #is-explanation {
+            font-size: 1.2em;
+            color: #333;
+            background-color: #e8f0fe;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            max-width: 80%;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .btn { 
+            padding: 12px 25px; 
+            font-size: 1.2em; 
+            margin: 5px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 8px; 
+            background-color: #1a73e8; 
+            color: white; 
+            transition: 0.3s; 
+            font-weight: bold;
+        }
+        .btn:hover:not(:disabled) { background-color: #1557b0; transform: scale(1.02); }
+        .recording { background-color: #d93025; animation: pulse 1.5s infinite; }
+        .recording:hover { background-color: #b3140b; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #media-box { 
+            font-size: 1.1em; 
+            color: #444; 
+            text-align: left; 
+            background: #f8fbff; 
+            padding: 15px 30px; 
+            border-radius: 12px; 
+            line-height: 1.6; 
+            border-left: 6px solid #1a73e8; 
+            margin-top: 15px;
+            display: inline-block;
+            min-width: 70%;
+        }
+        #spoken {
+            margin-top: 15px; 
+            font-size: 1.4em;
+            font-style: italic; 
+            color: #555;
+        }
+        #result {
+            font-weight: bold; 
+            font-size: 1.8em; 
+            margin-top: 5px; 
+            color: #1a73e8;
+        }
+        .nav-btns { margin-top: 20px; }
+        
+        /* Fyrir nafnainnslátt */
+        #studentName {
+            font-size: 1.5em;
+            padding: 10px;
+            margin: 20px 0;
+            width: 80%;
+            max-width: 400px;
+            border: 2px solid #1a73e8;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .feedback-note {
+            margin-top: 40px;
+            font-size: 0.95em;
+            color: #555;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .feedback-note a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .feedback-note a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <h1>Markorð: 141 - 150 algengustu í íslenskum námsbókum</h1>
+    
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="lang-selector">
+        <label for="languageSelect"><b>🌍 Tungumál:</b></label>
+        <select id="languageSelect" onchange="updateUI()">
+            <option value="" selected disabled>Veldu tungumál...</option>
+            <option value="ar">Arabíska – العربية</option>
+            <option value="be">Belgíska (Flæmska) – Vlaams</option>
+            <option value="da">Danska – Dansk</option>
+            <option value="en">Enska – English</option>
+            <option value="tl">Filippseyska – Tagalog</option>
+            <option value="fi">Finnska – Suomi</option>
+            <option value="fr">Franska – Français</option>
+            <option value="fo">Færeyska – Føroyskt</option>
+            <option value="kl">Grænlenska – Kalaallisut</option>
+            <option value="nl">Hollenska – Nederlands</option>
+            <option value="it">Ítalska – Italiano</option>
+            <option value="ja">Japanska – 日本語</option>
+            <option value="zh">Kínverska – 中文</option>
+            <option value="ku">Kúrdíska – Kurdî</option>
+            <option value="lv">Lettneska – Latviešu</option>
+            <option value="lt">Litháíska – Lietuvių</option>
+            <option value="no">Norska – Norsk</option>
+            <option value="fa">Persneska – فارسی</option>
+            <option value="pt">Portúgalska – Português</option>
+            <option value="pl">Pólska – Polski</option>
+            <option value="ro">Rúmenska – Română</option>
+            <option value="ru">Rússneska – Русский</option>
+            <option value="es">Spænska – Español</option>
+            <option value="sv">Sænska – Svenska</option>
+            <option value="th">Tælenska – ภาษาไทย</option>
+            <option value="de">Þýska – Deutsch</option>
+            <option value="uk">Úkraínska – Українська</option>
+            <option value="vi">Víetnamska – Tiếng Việt</option>
+        </select>
+    </div>
+
+    <div id="counter"></div>
+    
+    <div id="target"></div>
+    <div id="is-explanation"></div>
+    <br>
+    <button id="record-btn" class="btn" onclick="toggleRecord()">🎤 Tala</button>
+    
+    <div id="spoken"></div>
+    <div id="result"></div>
+
+    <div id="media-box"><i>Veldu tungumál úr listanum að ofan til að sjá þýðingu.</i></div>
+
+    <div class="nav-btns">
+        <button class="btn" style="background-color: #5f6368;" onclick="prevExercise()">⬅️ Fyrri</button>
+        <button class="btn" style="background-color: #5f6368;" onclick="nextExercise()">Næsta ➡️</button>
+    </div>
+
+    <div class="feedback-note">
+        Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+    </div>
+</div>
+
+<script>
+const exerciseData = [
+    { 
+        text: "meira", 
+        is_exp: "<b>Útskýring:</b> (Atviksorð / Lýsingarorð) Stigbreyting á 'mikið'. Þýðir stærra magn eða viðbót.<br><b>Andheiti:</b> minna.<br><br><b>Dæmi:</b> Viltu <b>meira</b> kaffi?",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ظرف / صفة) صيغة التفضيل من 'كثير' (أكثر). تعني كمية أكبر أو إضافة.<br><b>مضاد:</b> minna (أقل).<br><b>مثال:</b> هل تريد <b>المزيد</b> من القهوة؟</div>",
+            "be": "<b>Uitleg:</b> (Bijwoord / Bijvoeglijk naamwoord) Vergrotende trap van 'veel' (meer). Betekent een grotere hoeveelheid of een toevoeging.<br><b>Antoniem:</b> minna (minder).<br><b>Voorbeeld:</b> Wil je <b>meer</b> koffie?",
+            "da": "<b>Forklaring:</b> (Biord / Tillægsord) Komparativ af 'meget' (mere). Betyder en større mængde eller en tilføjelse.<br><b>Antonym:</b> minna (mindre).<br><b>Eksempel:</b> Vil du have <b>mere</b> kaffe?",
+            "en": "<b>Explanation:</b> (Adverb / Adjective) Comparative of 'much' (more). Means a larger amount or an addition.<br><b>Antonym:</b> minna (less).<br><b>Example:</b> Do you want <b>more</b> coffee?",
+            "tl": "<b>Paliwanag:</b> (Pang-abay / Pang-uri) Higit sa 'marami' (mas marami/higit pa). Nangangahulugan ng mas malaking halaga o dagdag.<br><b>Kasalungat:</b> minna (mas kaunti).<br><b>Halimbawa:</b> Gusto mo ba ng <b>mas maraming (dagdag na)</b> kape?",
+            "fi": "<b>Selitys:</b> (Adverbi / Adjektiivi) Komparatiivi sanasta 'paljon' (enemmän). Tarkoittaa suurempaa määrää tai lisäystä.<br><b>Vastakohta:</b> minna (vähemmän).<br><b>Esimerkki:</b> Haluatko <b>enemmän (lisää)</b> kahvia?",
+            "fr": "<b>Explication:</b> (Adverbe / Adjectif) Comparatif de 'beaucoup' (plus). Signifie une plus grande quantité ou un ajout.<br><b>Antonyme:</b> minna (moins).<br><b>Exemple:</b> Veux-tu <b>plus</b> de café ?",
+            "fo": "<b>Frágreiðing:</b> (Hjáorð / Lýsingarorð) Stigbroyting av 'nógv' (meira). Merkir størri nøgd ella okkurt afturat.<br><b>Andheiti:</b> minni.<br><b>Dømi:</b> Vilt tú hava <b>meira</b> kaffi?",
+            "kl": "<b>Nassoqqaat:</b> (Oqaaseeraq / Pissusilerut) Amerlanerusut, suli.<br><b>Assersuut:</b> Kaffimik <b>suli</b> piumavit?",
+            "nl": "<b>Uitleg:</b> (Bijwoord / Bijvoeglijk naamwoord) Vergrotende trap van 'veel' (meer). Betekent een grotere hoeveelheid of een toevoeging.<br><b>Antoniem:</b> minna (minder).<br><b>Voorbeeld:</b> Wil je <b>meer</b> koffie?",
+            "it": "<b>Spiegazione:</b> (Avverbio / Aggettivo) Comparativo di 'molto' (più). Significa una quantità maggiore o un'aggiunta.<br><b>Antonimo:</b> minna (meno).<br><b>Esempio:</b> Vuoi <b>più</b> caffè?",
+            "ja": "<b>説明:</b> (副詞 / 形容詞) 「たくさん」の比較級（もっと、より多く）。より多くの量や追加を意味します。<br><b>対義語:</b> minna (より少なく).<br><b>例文:</b> コーヒーを<b>もっと</b>いかがですか？",
+            "zh": "<b>解释:</b> (副词 / 形容词) “多”的比较级（更多）。表示更大的数量或附加。<br><b>反义词:</b> minna（更少）。<br><b>例句:</b> 你想<b>再（更多）</b>要点咖啡吗？",
+            "ku": "<b>Ravekirin:</b> (Hoker / Rengdêr) Berawirdiya 'pir' (zêdetir). Tê wateya mîqdarên mezintir an lêzêdekirinekê.<br><b>Dijwate:</b> minna (kêmtir).<br><b>Mînak:</b> Tu <b>zêdetir</b> qehwe dixwazî?",
+            "lv": "<b>Paskaidrojums:</b> (Apstākļa vārds / Īpašības vārds) Pārākā pakāpe no 'daudz' (vairāk). Nozīmē lielāku daudzumu vai papildinājumu.<br><b>Antonīms:</b> minna (mazāk).<br><b>Piemērs:</b> Vai vēlies <b>vairāk</b> kafijas?",
+            "lt": "<b>Paaiškinimas:</b> (Prievezmis / Būdvardis) Aukštesnysis laipsnis nuo 'daug' (daugiau). Reiškia didesnį kiekį ar papildymą.<br><b>Antonimas:</b> minna (mažiau).<br><b>Pavyzdys:</b> Ar nori <b>daugiau</b> kavos?",
+            "no": "<b>Forklaring:</b> (Adverb / Adjektiv) Komparativ av 'mye' (mer). Betyr en større mengde eller et tillegg.<br><b>Antonym:</b> minna (mindre).<br><b>Eksempel:</b> Vil du ha <b>mer</b> kaffe?",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (قید / صفت) تفضیلی 'زیاد' (بیشتر). به معنی مقدار بزرگتر یا اضافه است.<br><b>متضاد:</b> minna (کمتر).<br><b>مثال:</b> آیا قهوه <b>بیشتری</b> می‌خواهی؟</div>",
+            "pt": "<b>Explicação:</b> (Advérbio / Adjetivo) Comparativo de 'muito' (mais). Significa uma quantidade maior ou um acréscimo.<br><b>Antônimo:</b> minna (menos).<br><b>Exemplo:</b> Você quer <b>mais</b> café?",
+            "pl": "<b>Wyjaśnienie:</b> (Przysłówek / Przymiotnik) Stopień wyższy od 'dużo' (więcej). Oznacza większą ilość lub dodatek.<br><b>Antonim:</b> minna (mniej).<br><b>Przykład:</b> Czy chcesz <b>więcej</b> kawy?",
+            "ro": "<b>Explicație:</b> (Adverb / Adjectiv) Comparativul de la 'mult' (mai mult). Înseamnă o cantitate mai mare sau o adăugare.<br><b>Antonim:</b> minna (mai puțin).<br><b>Exemplu:</b> Vrei <b>mai multă</b> cafea?",
+            "ru": "<b>Объяснение:</b> (Наречие / Прилагательное) Сравнительная степень от 'много' (больше/еще). Означает большее количество или добавку.<br><b>Антоним:</b> minna (меньше).<br><b>Пример:</b> Хочешь <b>еще (больше)</b> кофе?",
+            "es": "<b>Explicación:</b> (Adverbio / Adjetivo) Comparativo de 'mucho' (más). Significa una cantidad mayor o una adición.<br><b>Antónimo:</b> minna (menos).<br><b>Ejemplo:</b> ¿Quieres <b>más</b> café?",
+            "sv": "<b>Förklaring:</b> (Adverb / Adjektiv) Komparativ av 'mycket' (mer). Betyder en större mängd eller ett tillägg.<br><b>Antonym:</b> minna (mindre).<br><b>Exempel:</b> Vill du ha <b>mer</b> kaffe?",
+            "th": "<b>คำอธิบาย:</b> (คำกริยาวิเศษณ์ / คำคุณศัพท์) ขั้นกว่าของ 'มาก' (มากกว่า/อีก) หมายถึงปริมาณที่เพิ่มขึ้นหรือส่วนเพิ่มเติม<br><b>คำตรงข้าม:</b> minna (น้อยกว่า)<br><b>ตัวอย่าง:</b> คุณต้องการกาแฟ<b>อีก (มากกว่านี้)</b> ไหม?",
+            "de": "<b>Erklärung:</b> (Adverb / Adjektiv) Komparativ von 'viel' (mehr). Bedeutet eine größere Menge oder eine Zugabe.<br><b>Antonym:</b> minna (weniger).<br><b>Beispiel:</b> Möchtest du <b>mehr</b> Kaffee?",
+            "uk": "<b>Пояснення:</b> (Прислівник / Прикметник) Вищий ступінь від 'багато' (більше/ще). Означає більшу кількість або додаток.<br><b>Антонім:</b> minna (менше).<br><b>Приклад:</b> Хочеш <b>ще (більше)</b> кави?",
+            "vi": "<b>Giải thích:</b> (Trạng từ / Tính từ) So sánh hơn của 'nhiều' (nhiều hơn/thêm). Có nghĩa là một số lượng lớn hơn hoặc được thêm vào.<br><b>Từ trái nghĩa:</b> minna (ít hơn).<br><b>Ví dụ:</b> Bạn có muốn <b>thêm</b> cà phê không?"
+        }
+    },
+    { 
+        text: "dæmi", 
+        is_exp: "<b>Útskýring:</b> (Nafnorð) Sýnishorn af einhverju eða eitthvað til að útskýra betur. Oft notað í 'til dæmis'.<br><br><b>Dæmi:</b> Geta allir nefnt eitt <b>dæmi</b>?",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (اسم) عينة من شيء ما أو شيء للشرح بشكل أفضل (مثال).<br><b>مثال:</b> هل يمكن للجميع ذكر <b>مثال</b> واحد؟</div>",
+            "be": "<b>Uitleg:</b> (Zelfstandig naamwoord) Een voorbeeld van iets of iets om beter uit te leggen.<br><b>Voorbeeld:</b> Kan iedereen één <b>voorbeeld</b> noemen?",
+            "da": "<b>Forklaring:</b> (Navneord) En prøve på noget eller noget til at forklare bedre (eksempel).<br><b>Eksempel:</b> Kan alle nævne ét <b>eksempel</b>?",
+            "en": "<b>Explanation:</b> (Noun) A sample of something or something to explain better. Often used in 'til dæmis' (for example).<br><b>Example:</b> Can everyone name one <b>example</b>?",
+            "tl": "<b>Paliwanag:</b> (Pangngalan) Isang sample ng isang bagay o isang bagay para mas maipaliwanag (halimbawa).<br><b>Halimbawa:</b> Maaari bang magbigay ang lahat ng isang <b>halimbawa</b>?",
+            "fi": "<b>Selitys:</b> (Substantiivi) Näyte jostakin tai jotain, jolla selitetään paremmin (esimerkki).<br><b>Esimerkki:</b> Voivatko kaikki nimetä yhden <b>esimerkin</b>?",
+            "fr": "<b>Explication:</b> (Nom) Un échantillon de quelque chose ou quelque chose pour mieux expliquer (exemple).<br><b>Exemple:</b> Est-ce que tout le monde peut donner un <b>exemple</b> ?",
+            "fo": "<b>Frágreiðing:</b> (Navnorð) Eitt sýnishorn av onkrum ella okkurt til at greiða betur frá (dømi).<br><b>Dømi:</b> Kunnu øll nevna eitt <b>dømi</b>?",
+            "kl": "<b>Nassoqqaat:</b> (Navneord) Assersuut.<br><b>Assersuut:</b> Kikkut tamarmik <b>assersuummik</b> ataatsimik taasaqarsinnaappat?",
+            "nl": "<b>Uitleg:</b> (Zelfstandig naamwoord) Een voorbeeld van iets of iets om beter uit te leggen (voorbeeld).<br><b>Voorbeeld:</b> Kan iedereen één <b>voorbeeld</b> noemen?",
+            "it": "<b>Spiegazione:</b> (Sostantivo) Un campione di qualcosa o qualcosa per spiegare meglio (esempio).<br><b>Esempio:</b> Tutti possono nominare un <b>esempio</b>?",
+            "ja": "<b>説明:</b> (名詞) 何かの見本や、よりよく説明するためのもの（例）。<br><b>例文:</b> みんな、一つの<b>例</b>を挙げられますか？",
+            "zh": "<b>解释:</b> (名词) 某物的样本或用来更好解释的事物（例子）。<br><b>例句:</b> 每个人都能举出一个<b>例子</b>吗？",
+            "ku": "<b>Ravekirin:</b> (Navdêr) Mînakek ji tiştekî an tiştek ji bo çêtir ravekirinê (mînak).<br><b>Mînak:</b> Gelo her kes dikare <b>mînakekê</b> bide?",
+            "lv": "<b>Paskaidrojums:</b> (Lietvārds) Kaut kā paraugs vai kaut kas, ko izmanto paskaidrošanai (piemērs).<br><b>Piemērs:</b> Vai visi var nosaukt vienu <b>piemēru</b>?",
+            "lt": "<b>Paaiškinimas:</b> (Daiktavardis) Kažko pavyzdys ar kažkas, kas padeda geriau paaiškinti (pavyzdys).<br><b>Pavyzdys:</b> Ar visi gali pateikti vieną <b>pavyzdį</b>?",
+            "no": "<b>Forklaring:</b> (Substantiv) En prøve på noe eller noe for å forklare bedre (eksempel).<br><b>Eksempel:</b> Kan alle nevne ett <b>eksempel</b>?",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (اسم) نمونه‌ای از چیزی یا چیزی برای توضیح بهتر (مثال).<br><b>مثال:</b> آیا همه می‌توانند یک <b>مثال</b> نام ببرند؟</div>",
+            "pt": "<b>Explicação:</b> (Substantivo) Uma amostra de algo ou algo para explicar melhor (exemplo).<br><b>Exemplo:</b> Todos podem dar um <b>exemplo</b>?",
+            "pl": "<b>Wyjaśnienie:</b> (Rzeczownik) Próbka czegoś lub coś do lepszego wyjaśnienia (przykład).<br><b>Przykład:</b> Czy każdy może podać jeden <b>przykład</b>?",
+            "ro": "<b>Explicație:</b> (Substantiv) O mostră din ceva sau ceva pentru a explica mai bine (exemplu).<br><b>Exemplu:</b> Poate toată lumea să dea un <b>exemplu</b>?",
+            "ru": "<b>Объяснение:</b> (Существительное) Образец чего-то или то, что служит для лучшего объяснения (пример).<br><b>Пример:</b> Может ли каждый назвать один <b>пример</b>?",
+            "es": "<b>Explicación:</b> (Sustantivo) Una muestra de algo o algo para explicar mejor (ejemplo).<br><b>Ejemplo:</b> ¿Pueden todos nombrar un <b>ejemplo</b>?",
+            "sv": "<b>Förklaring:</b> (Substantiv) Ett prov på något eller något för att förklara bättre (exempel).<br><b>Exempel:</b> Kan alla nämna ett <b>exempel</b>?",
+            "th": "<b>คำอธิบาย:</b> (คำนาม) ตัวอย่างของบางสิ่ง หรือบางสิ่งเพื่ออธิบายให้ชัดเจนขึ้น (ตัวอย่าง)<br><b>ตัวอย่าง:</b> ทุกคนสามารถยก<b>ตัวอย่าง</b>หนึ่งข้อได้ไหม?",
+            "de": "<b>Erklärung:</b> (Substantiv) Ein Muster von etwas oder etwas zur besseren Erklärung (Beispiel).<br><b>Beispiel:</b> Kann jeder ein <b>Beispiel</b> nennen?",
+            "uk": "<b>Пояснення:</b> (Іменник) Зразок чогось або те, що служить для кращого пояснення (приклад).<br><b>Приклад:</b> Чи може кожен назвати один <b>приклад</b>?",
+            "vi": "<b>Giải thích:</b> (Danh từ) Một mẫu của một cái gì đó hoặc một cái gì đó để giải thích rõ hơn (ví dụ).<br><b>Ví dụ:</b> Mọi người có thể nêu một <b>ví dụ</b> không?"
+        }
+    },
+    { 
+        text: "ára", 
+        is_exp: "<b>Útskýring:</b> (Nafnorð) Eignarfall fleirtölu af orðinu 'ár' (mörg ár). Oft notað þegar talað er um aldur eða tíma.<br><br><b>Dæmi:</b> Hann er tíu <b>ára</b> gamall.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (اسم) حالة الإضافة للجمع من كلمة 'سنة' (سنوات). تُستخدم غالباً عند الحديث عن العمر.<br><b>مثال:</b> هو يبلغ من العمر عشر <b>سنوات</b>.</div>",
+            "be": "<b>Uitleg:</b> (Zelfstandig naamwoord) Genitief meervoud van 'jaar' (jaren). Vaak gebruikt voor leeftijd.<br><b>Voorbeeld:</b> Hij is tien <b>jaar</b> oud.",
+            "da": "<b>Forklaring:</b> (Navneord) Ejefald flertal af ordet 'år' (flere år). Bruges ofte om alder.<br><b>Eksempel:</b> Han er ti <b>år</b> gammel.",
+            "en": "<b>Explanation:</b> (Noun) Genitive plural of the word 'ár' (years). Often used when talking about age.<br><b>Example:</b> He is ten <b>years</b> old.",
+            "tl": "<b>Paliwanag:</b> (Pangngalan) Genitive plural ng salitang 'ár' (mga taon). Madalas ginagamit sa pagsasabi ng edad.<br><b>Halimbawa:</b> Siya ay sampung <b>taon</b>g gulang.",
+            "fi": "<b>Selitys:</b> (Substantiivi) Sanan 'vuosi' genetiivin monikko (vuosia). Käytetään usein iästä puhuttaessa.<br><b>Esimerkki:</b> Hän on kymmenen <b>vuotta</b> vanha.",
+            "fr": "<b>Explication:</b> (Nom) Génitif pluriel du mot 'ár' (années). Souvent utilisé pour parler de l'âge.<br><b>Exemple:</b> Il a dix <b>ans</b>.",
+            "fo": "<b>Frágreiðing:</b> (Navnorð) Hvørsfall fleirtal av orðinum 'ár'. Ofta brúkt um aldur.<br><b>Dømi:</b> Hann er tíggju <b>ára</b> gamal.",
+            "kl": "<b>Nassoqqaat:</b> (Navneord) Ukiut.<br><b>Assersuut:</b> Qulinik <b>ukio</b>qarpoq.",
+            "nl": "<b>Uitleg:</b> (Zelfstandig naamwoord) Genitief meervoud van het woord 'ár' (jaren). Vaak gebruikt voor leeftijd.<br><b>Voorbeeld:</b> Hij is tien <b>jaar</b> oud.",
+            "it": "<b>Spiegazione:</b> (Sostantivo) Genitivo plurale della parola 'ár' (anni). Spesso usato per l'età.<br><b>Esempio:</b> Lui ha dieci <b>anni</b>.",
+            "ja": "<b>説明:</b> (名詞) 「年」という単語の属格複数形（何年もの）。年齢について話すときによく使われます。<br><b>例文:</b> 彼は10<b>歳（年）</b>です。",
+            "zh": "<b>解释:</b> (名词) 单词“年”的复数所有格（几年）。常用于谈论年龄时。<br><b>例句:</b> 他十<b>岁（年）</b>了。",
+            "ku": "<b>Ravekirin:</b> (Navdêr) Genîtîva piralî ya peyva 'sal' (salan). Bi gelemperî dema qala temen tê kirin tê bikaranîn.<br><b>Mînak:</b> Ew deh <b>salî</b> ye.",
+            "lv": "<b>Paskaidrojums:</b> (Lietvārds) Vārda 'gads' ģenitīva daudzskaitlis (gadu). Bieži lieto, runājot par vecumu.<br><b>Piemērs:</b> Viņam ir desmit <b>gadi</b>.",
+            "lt": "<b>Paaiškinimas:</b> (Daiktavardis) Žodžio 'metai' kilmininko daugiskaita (metų). Dažnai naudojamas kalbant apie amžių.<br><b>Pavyzdys:</b> Jam yra dešimt <b>metų</b>.",
+            "no": "<b>Forklaring:</b> (Substantiv) Eieform flertall av ordet 'år' (mange år). Brukes ofte om alder.<br><b>Eksempel:</b> Han er ti <b>år</b> gammel.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (اسم) حالت مضاف‌الیه جمع کلمه 'سال' (سال‌ها). بیشتر برای بیان سن استفاده می‌شود.<br><b>مثال:</b> او ده <b>ساله</b> است.</div>",
+            "pt": "<b>Explicação:</b> (Substantivo) Genitivo plural da palavra 'ano' (anos). Muitas vezes usado para falar sobre a idade.<br><b>Exemplo:</b> Ele tem dez <b>anos</b> de idade.",
+            "pl": "<b>Wyjaśnienie:</b> (Rzeczownik) Dopełniacz liczby mnogiej od słowa 'rok' (lat). Często używany, gdy mowa o wieku.<br><b>Przykład:</b> On ma dziesięć <b>lat</b>.",
+            "ro": "<b>Explicație:</b> (Substantiv) Genitiv plural al cuvântului 'an' (ani). Adesea folosit când se vorbește despre vârstă.<br><b>Exemplu:</b> El are zece <b>ani</b>.",
+            "ru": "<b>Объяснение:</b> (Существительное) Родительный падеж множественного числа слова 'год' (лет). Часто используется при разговоре о возрасте.<br><b>Пример:</b> Ему десять <b>лет</b>.",
+            "es": "<b>Explicación:</b> (Sustantivo) Genitivo plural de la palabra 'año' (años). A menudo se usa para hablar de la edad.<br><b>Ejemplo:</b> Tiene diez <b>años</b>.",
+            "sv": "<b>Förklaring:</b> (Substantiv) Genitiv plural av ordet 'år' (många år). Används ofta om ålder.<br><b>Exempel:</b> Han är tio <b>år</b> gammal.",
+            "th": "<b>คำอธิบาย:</b> (คำนาม) รูประบุความเป็นเจ้าของพหูพจน์ของคำว่า 'ปี' (หลายปี) มักใช้เมื่อพูดถึงอายุ<br><b>ตัวอย่าง:</b> เขาอายุสิบ<b>ปี</b>",
+            "de": "<b>Erklärung:</b> (Substantiv) Genitiv Plural des Wortes 'Jahr' (Jahre/Jahren). Wird oft für Altersangaben verwendet.<br><b>Beispiel:</b> Er ist zehn <b>Jahre</b> alt.",
+            "uk": "<b>Пояснення:</b> (Іменник) Родовий відмінок множини слова 'рік' (років). Часто використовується, коли говорять про вік.<br><b>Приклад:</b> Йому десять <b>років</b>.",
+            "vi": "<b>Giải thích:</b> (Danh từ) Sở hữu cách số nhiều của từ 'năm' (nhiều năm). Thường dùng khi nói về tuổi tác.<br><b>Ví dụ:</b> Cậu ấy mười <b>tuổi (năm)</b>."
+        }
+    },
+    { 
+        text: "bæði", 
+        is_exp: "<b>Útskýring:</b> (Fornafn / Samtenging) Vísar til tveggja hluta, dýra eða manneskja (hvorugkyn). Einnig notað sem samtengingin 'bæði... og...'.<br><br><b>Dæmi:</b> Ég vil <b>bæði</b> epli og appelsínu.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ضمير / حرف عطف) يشير إلى شيئين أو شخصين معاً (كلاهما). يُستخدم أيضاً في العطف 'كلاً من... و...'.<br><b>مثال:</b> أريد <b>كلاً من</b> التفاح والبرتقال.</div>",
+            "be": "<b>Uitleg:</b> (Voornaamwoord / Voegwoord) Verwijst naar twee dingen of mensen. Ook gebruikt als 'zowel... als...'.<br><b>Voorbeeld:</b> Ik wil <b>zowel</b> een appel als een sinaasappel.",
+            "da": "<b>Forklaring:</b> (Stedord / Bindeord) Refererer til to ting eller personer (begge). Bruges også som bindeord 'både... og...'.<br><b>Eksempel:</b> Jeg vil <b>både</b> have et æble og en appelsin.",
+            "en": "<b>Explanation:</b> (Pronoun / Conjunction) Refers to two things or people (both/neuter). Also used as the conjunction 'both... and...'.<br><b>Example:</b> I want <b>both</b> an apple and an orange.",
+            "tl": "<b>Paliwanag:</b> (Panghalip / Pangatnig) Tumutukoy sa dalawang bagay o tao (pareho). Ginagamit din bilang pangatnig na 'parehong... at...'.<br><b>Halimbawa:</b> Gusto ko <b>pareho</b> ang mansanas at dalandan.",
+            "fi": "<b>Selitys:</b> (Pronomini / Konjunktio) Viittaa kahteen asiaan tai ihmiseen (molemmat). Käytetään myös konjunktiona 'sekä... että...'.<br><b>Esimerkki:</b> Haluan <b>sekä (molemmat)</b> omenan ja appelsiinin.",
+            "fr": "<b>Explication:</b> (Pronom / Conjonction) Fait référence à deux choses ou personnes (les deux). Aussi utilisé comme conjonction 'à la fois... et...'.<br><b>Exemple:</b> Je veux <b>à la fois (les deux)</b> une pomme et une orange.",
+            "fo": "<b>Frágreiðing:</b> (Fornavn / Sambindingarorð) Vísir til tveir lutir ella persónar (bæði). Eisini brúkt sum 'bæði... og...'.<br><b>Dømi:</b> Eg vil <b>bæði</b> hava súrepli og appilsin.",
+            "kl": "<b>Nassoqqaat:</b> (Fornavn / Bindingsord) Tamarmik.<br><b>Assersuut:</b> Iipili appelsiinalu <b>tamarmik</b> piumavakka.",
+            "nl": "<b>Uitleg:</b> (Voornaamwoord / Voegwoord) Verwijst naar twee dingen of personen (beide). Ook gebruikt als 'zowel... als...'.<br><b>Voorbeeld:</b> Ik wil <b>zowel</b> een appel als een sinaasappel.",
+            "it": "<b>Spiegazione:</b> (Pronome / Congiunzione) Si riferisce a due cose o persone (entrambi). Usato anche come 'sia... che...'.<br><b>Esempio:</b> Voglio <b>sia</b> una mela che un'arancia.",
+            "ja": "<b>説明:</b> (代名詞 / 接続詞) 2つの物や人を指します（両方）。また「～も～も両方」という接続詞としても使われます。<br><b>例文:</b> りんごとオレンジの<b>両方</b>が欲しいです。",
+            "zh": "<b>解释:</b> (代词 / 连词) 指代两件事物或人（两者都）。也用作连词“既...又...”。<br><b>例句:</b> 苹果和橙子我<b>都（既要...又要）</b>想要。",
+            "ku": "<b>Ravekirin:</b> (Cînav / Gihênek) Du tiştan an kesan destnîşan dike (her du). Herwiha wekî 'hem... hem jî...' tê bikaranîn.<br><b>Mînak:</b> Ez <b>hem</b> sêv û hem jî porteqalekê dixwazim.",
+            "lv": "<b>Paskaidrojums:</b> (Vietniekvārds / Saiklis) Norāda uz divām lietām vai cilvēkiem (abi). Lieto arī kā 'gan... gan...'.<br><b>Piemērs:</b> Es gribu <b>gan</b> ābolu, gan apelsīnu.",
+            "lt": "<b>Paaiškinimas:</b> (Įvardis / Jungtukas) Nurodo du daiktus ar žmones (abu). Taip pat naudojamas kaip 'tiek... tiek...'.<br><b>Pavyzdys:</b> Noriu <b>tiek</b> obuolio, tiek apelsino.",
+            "no": "<b>Forklaring:</b> (Pronomen / Konjunksjon) Refererer til to ting eller personer (begge). Brukes også som 'både... og...'.<br><b>Eksempel:</b> Jeg vil ha <b>både</b> et eple og en appelsin.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (ضمیر / حرف ربط) به دو چیز یا شخص اشاره دارد (هر دو). همچنین به عنوان 'هم... و هم...' استفاده می‌شود.<br><b>مثال:</b> من <b>هم</b> سیب و هم پرتقال می‌خواهم.</div>",
+            "pt": "<b>Explicação:</b> (Pronome / Conjunção) Refere-se a duas coisas ou pessoas (ambos). Também usado como 'tanto... como...'.<br><b>Exemplo:</b> Eu quero <b>tanto</b> uma maçã quanto uma laranja.",
+            "pl": "<b>Wyjaśnienie:</b> (Zaimek / Spójnik) Odnosi się do dwóch rzeczy lub osób (oba). Używany również jako 'zarówno... jak i...'.<br><b>Przykład:</b> Chcę <b>zarówno</b> jabłko, jak i pomarańczę.",
+            "ro": "<b>Explicație:</b> (Pronume / Conjuncție) Se referă la două lucruri sau persoane (ambele). Folosit și ca 'atât... cât și...'.<br><b>Exemplu:</b> Vreau <b>atât</b> un măr, cât și o portocală.",
+            "ru": "<b>Объяснение:</b> (Местоимение / Союз) Указывает на две вещи или людей (оба). Также используется как 'и... и... / как... так и...'.<br><b>Пример:</b> Я хочу <b>и</b> яблоко, и апельсин.",
+            "es": "<b>Explicación:</b> (Pronombre / Conjunción) Se refiere a dos cosas o personas (ambos). También se usa como 'tanto... como...'.<br><b>Ejemplo:</b> Quiero <b>tanto</b> una manzana como una naranja.",
+            "sv": "<b>Förklaring:</b> (Pronomen / Konjunktion) Refererar till två saker eller personer (båda). Används också som 'både... och...'.<br><b>Exempel:</b> Jag vill ha <b>både</b> ett äpple och en apelsin.",
+            "th": "<b>คำอธิบาย:</b> (สรรพนาม / คำสันธาน) อ้างถึงสองสิ่งหรือสองคน (ทั้งสอง) ใช้เป็นคำเชื่อม 'ทั้ง...และ...' ด้วย<br><b>ตัวอย่าง:</b> ฉันต้องการ<b>ทั้ง</b>แอปเปิ้ลและส้ม",
+            "de": "<b>Erklärung:</b> (Pronomen / Konjunktion) Bezieht sich auf zwei Dinge oder Personen (beide). Auch verwendet als 'sowohl ... als auch ...'.<br><b>Beispiel:</b> Ich möchte <b>sowohl</b> einen Apfel als auch eine Orange.",
+            "uk": "<b>Пояснення:</b> (Займенник / Сполучник) Вказує на дві речі або людей (обидва). Також використовується як 'і... і... / як..., так і...'.<br><b>Приклад:</b> Я хочу <b>і</b> яблуко, і апельсин.",
+            "vi": "<b>Giải thích:</b> (Đại từ / Liên từ) Chỉ hai vật hoặc hai người (cả hai). Cũng được dùng như 'cả... và...'.<br><b>Ví dụ:</b> Tôi muốn <b>cả</b> một quả táo và một quả cam."
+        }
+    },
+    { 
+        text: "margir", 
+        is_exp: "<b>Útskýring:</b> (Lýsingarorð / Fornafn) Vísar til fjölda sem er stór (karlkyn fleirtala).<br><b>Andheiti:</b> fáir.<br><b>Dæmi:</b> Það voru <b>margir</b> strákar á mótinu.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (صفة / ضمير) يشير إلى عدد كبير (جمع مذكر).<br><b>مضاد:</b> fáir (قليلون).<br><b>مثال:</b> كان هناك <b>العديد</b> من الأولاد في البطولة.</div>",
+            "be": "<b>Uitleg:</b> (Bijvoeglijk naamwoord / Voornaamwoord) Verwijst naar een groot aantal (mannelijk meervoud).<br><b>Antoniem:</b> fáir (weinig).<br><b>Voorbeeld:</b> Er waren <b>veel</b> jongens op het toernooi.",
+            "da": "<b>Forklaring:</b> (Tillægsord / Stedord) Henviser til et stort antal (hankøn flertal).<br><b>Antonym:</b> fáir (få).<br><b>Eksempel:</b> Der var <b>mange</b> drenge til stævnet.",
+            "en": "<b>Explanation:</b> (Adjective / Pronoun) Refers to a large number (masculine plural / many).<br><b>Antonym:</b> fáir (few).<br><b>Example:</b> There were <b>many</b> boys at the tournament.",
+            "tl": "<b>Paliwanag:</b> (Pang-uri / Panghalip) Tumutukoy sa malaking bilang (marami / panlalaki).<br><b>Kasalungat:</b> fáir (kaunti).<br><b>Halimbawa:</b> Mayroong <b>maraming</b> lalaki sa paligsahan.",
+            "fi": "<b>Selitys:</b> (Adjektiivi / Pronomini) Viittaa suureen määrään (maskuliini monikko / monet).<br><b>Vastakohta:</b> fáir (harvat).<br><b>Esimerkki:</b> Turnauksessa oli <b>monia (paljon)</b> poikia.",
+            "fr": "<b>Explication:</b> (Adjectif / Pronom) Fait référence à un grand nombre (masculin pluriel / beaucoup).<br><b>Antonyme:</b> fáir (peu de).<br><b>Exemple:</b> Il y avait <b>beaucoup</b> de garçons au tournoi.",
+            "fo": "<b>Frágreiðing:</b> (Lýsingarorð / Fornavn) Vísir til eina stóra nøgd (kallkyn fleirtal / nógvir).<br><b>Andheiti:</b> fáir.<br><b>Dømi:</b> Tað vóru <b>nógvir</b> (margir) dreingir til kappingina.",
+            "kl": "<b>Nassoqqaat:</b> (Oqaaseeraq / Pissusilerut) Amerlasuut.<br><b>Assersuut:</b> Nukappissat <b>amerlasuut</b> unammersuarnerni peqataapput.",
+            "nl": "<b>Uitleg:</b> (Bijvoeglijk naamwoord / Voornaamwoord) Verwijst naar een groot aantal (mannelijk meervoud / veel).<br><b>Antoniem:</b> fáir (weinig).<br><b>Voorbeeld:</b> Er waren <b>veel</b> jongens op het toernooi.",
+            "it": "<b>Spiegazione:</b> (Aggettivo / Pronome) Si riferisce a un gran numero (plurale maschile / molti).<br><b>Antonimo:</b> fáir (pochi).<br><b>Esempio:</b> C'erano <b>molti</b> ragazzi al torneo.",
+            "ja": "<b>説明:</b> (形容詞 / 代名詞) 数が多いことを指します（男性複数 / 多くの）。<br><b>対義語:</b> fáir (少ない).<br><b>例文:</b> 大会には<b>多くの</b>男の子たちがいました。",
+            "zh": "<b>解释:</b> (形容词 / 代词) 指大量（阳性复数 / 很多）。<br><b>反义词:</b> fáir（很少）。<br><b>例句:</b> 锦标赛上有很多（<b>许多</b>）男孩。",
+            "ku": "<b>Ravekirin:</b> (Rengdêr / Cînav) Hejmareke mezin nîşan dide (mêr piralî / gelek).<br><b>Dijwate:</b> fáir (kêm).<br><b>Mînak:</b> Di tûrnûvayê de <b>gelek</b> kurik hebûn.",
+            "lv": "<b>Paskaidrojums:</b> (Īpašības vārds / Vietniekvārds) Norāda uz lielu skaitu (vīriešu dz. daudzskaitlis / daudzi).<br><b>Antonīms:</b> fáir (maz).<br><b>Piemērs:</b> Turnīrā bija <b>daudz</b> zēnu.",
+            "lt": "<b>Paaiškinimas:</b> (Būdvardis / Įvardis) Nurodo didelį skaičių (vyriška giminė daugiskaita / daug).<br><b>Antonimas:</b> fáir (mažai).<br><b>Pavyzdys:</b> Turnyre buvo <b>daug</b> berniukų.",
+            "no": "<b>Forklaring:</b> (Adjektiv / Pronomen) Refererer til et stort antall (hankjønn flertall / mange).<br><b>Antonym:</b> fáir (få).<br><b>Eksempel:</b> Det var <b>mange</b> gutter på turneringen.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (صفت / ضمیر) به تعداد زیادی اشاره دارد (جمع مذکر / بسیاری).<br><b>متضاد:</b> fáir (تعداد کمی).<br><b>مثال:</b> <b>بسیاری</b> از پسران در مسابقات بودند.</div>",
+            "pt": "<b>Explicação:</b> (Adjetivo / Pronome) Refere-se a um grande número (masculino plural / muitos).<br><b>Antônimo:</b> fáir (poucos).<br><b>Exemplo:</b> Havia <b>muitos</b> meninos no torneio.",
+            "pl": "<b>Wyjaśnienie:</b> (Przymiotnik / Zaimek) Odnosi się do dużej liczby (rodzaj męski l.mn. / wielu).<br><b>Antonim:</b> fáir (niewielu).<br><b>Przykład:</b> Na turnieju było <b>wielu</b> chłopców.",
+            "ro": "<b>Explicație:</b> (Adjectiv / Pronume) Se referă la un număr mare (masculin plural / mulți).<br><b>Antonim:</b> fáir (puțini).<br><b>Exemplu:</b> Erau <b>mulți</b> băieți la turneu.",
+            "ru": "<b>Объяснение:</b> (Прилагательное / Местоимение) Указывает на большое количество (мужской род мн.ч. / многие/много).<br><b>Антоним:</b> fáir (мало/немногие).<br><b>Пример:</b> На турнире было <b>много</b> мальчиков.",
+            "es": "<b>Explicación:</b> (Adjetivo / Pronombre) Se refiere a un gran número (masculino plural / muchos).<br><b>Antónimo:</b> fáir (pocos).<br><b>Ejemplo:</b> Había <b>muchos</b> chicos en el torneo.",
+            "sv": "<b>Förklaring:</b> (Adjektiv / Pronomen) Refererar till ett stort antal (maskulinum plural / många).<br><b>Antonym:</b> fáir (få).<br><b>Exempel:</b> Det var <b>många</b> pojkar på turneringen.",
+            "th": "<b>คำอธิบาย:</b> (คำคุณศัพท์ / สรรพนาม) อ้างถึงจำนวนที่มาก (เพศชายพหูพจน์ / หลายคน)<br><b>คำตรงข้าม:</b> fáir (น้อย)<br><b>ตัวอย่าง:</b> มีเด็กผู้ชาย<b>หลายคน (มากมาย)</b> ในทัวร์นาเมนต์",
+            "de": "<b>Erklärung:</b> (Adjektiv / Pronomen) Bezieht sich auf eine große Anzahl (maskulin Plural / viele).<br><b>Antonym:</b> fáir (wenige).<br><b>Beispiel:</b> Es waren <b>viele</b> Jungen beim Turnier.",
+            "uk": "<b>Пояснення:</b> (Прикметник / Займенник) Вказує на велику кількість (чол. рід множина / багато).<br><b>Антонім:</b> fáir (мало/небагато).<br><b>Приклад:</b> На турнірі було <b>багато</b> хлопців.",
+            "vi": "<b>Giải thích:</b> (Tính từ / Đại từ) Chỉ số lượng lớn (số nhiều giống đực / nhiều).<br><b>Từ trái nghĩa:</b> fáir (ít).<br><b>Ví dụ:</b> Có <b>nhiều</b> cậu bé tham gia giải đấu."
+        }
+    },
+    { 
+        text: "sinni", 
+        is_exp: "<b>Útskýring:</b><br>1. (Nafnorð) Þýðir 'skipti' í þágufalli (t.d. í þetta sinni = í þetta skipti).<br>2. (Eignarfornafn) Vísar til eignar aðalpersónu setningarinnar í þágufalli.<br><br><b>Dæmi 1:</b> Í þetta <b>sinni</b> gekk vel.<br><b>Dæmi 2:</b> Hún var hjá ömmu <b>sinni</b>.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b><br>1. (اسم) يعني 'مرة' في حالة الجر (في هذه المرة).<br>2. (ضمير ملكية) يشير إلى ما يملكه الفاعل في حالة الجر.<br><b>مثال 1:</b> في هذه <b>المرة</b> سارت الأمور بشكل جيد.<br><b>مثال 2:</b> كانت مع جدتـ<b>ـها</b>.</div>",
+            "be": "<b>Uitleg:</b><br>1. (Zelfstandig naamwoord) Betekent 'keer' in datief (deze keer).<br>2. (Bezittelijk voornaamwoord) Verwijst naar eigendom van het onderwerp in datief (eigen).<br><b>Voorbeeld 1:</b> Deze <b>keer</b> ging het goed.<br><b>Voorbeeld 2:</b> Ze was bij <b>haar (eigen)</b> oma.",
+            "da": "<b>Forklaring:</b><br>1. (Navneord) Betyder 'gang' i dativ (fx. denne gang).<br>2. (Ejestedord) Viser ejerskab for grundleddet i dativ.<br><b>Eksempel 1:</b> Denne <b>gang</b> gik det godt.<br><b>Eksempel 2:</b> Hun var hos <b>sin</b> bedstemor.",
+            "en": "<b>Explanation:</b><br>1. (Noun) Means 'time/occasion' in dative (e.g. this time).<br>2. (Possessive pronoun) Refers to the subject's ownership in dative.<br><b>Example 1:</b> This <b>time</b> it went well.<br><b>Example 2:</b> She was with <b>her (own)</b> grandmother.",
+            "tl": "<b>Paliwanag:</b><br>1. (Pangngalan) Nangangahulugang 'pagkakataon/beses' sa dative (hal. sa pagkakataong ito).<br>2. (Panghalip na paari) Tumutukoy sa pagmamay-ari ng simuno sa dative.<br><b>Halimbawa 1:</b> Sa <b>pagkakataong</b> ito, naging maayos ang lahat.<br><b>Halimbawa 2:</b> Kasama niya ang <b>kanyang (sariling)</b> lola.",
+            "fi": "<b>Selitys:</b><br>1. (Substantiivi) Tarkoittaa 'kerta' datiivissa (esim. tällä kertaa).<br>2. (Omistuspronomini) Viittaa subjektin omistukseen datiivissa.<br><b>Esimerkki 1:</b> Tällä <b>kertaa</b> meni hyvin.<br><b>Esimerkki 2:</b> Hän oli <b>omalla</b> isoäidillään.",
+            "fr": "<b>Explication:</b><br>1. (Nom) Signifie 'fois/occasion' au datif (ex. cette fois).<br>2. (Pronom possessif) Fait référence à l'appartenance au sujet au datif.<br><b>Exemple 1:</b> Cette <b>fois</b>, ça s'est bien passé.<br><b>Exemple 2:</b> Elle était chez <b>sa</b> grand-mère.",
+            "fo": "<b>Frágreiðing:</b><br>1. (Navnorð) Merkir 'ferð' í hvørjumfalli (t.d. á hesum sinni).<br>2. (Eignarfornavn) Vísir til eign hjá høvuðspersóni í hvørjumfalli.<br><b>Dømi 1:</b> Á hesum <b>sinni</b> gekk væl.<br><b>Dømi 2:</b> Hon var hjá ommu <b>síni</b>.",
+            "kl": "<b>Nassoqqaat:</b><br>1. (Navneord) Piffissaq (denne gang).<br>2. (Fornavn) Nammineq pigisaq.<br><b>Assersuut 1:</b> Tamatumuuna (í þetta <b>sinni</b>) ingerlalluarpoq.<br><b>Assersuut 2:</b> Aanaminiippoq (hjá ömmu <b>sinni</b>).",
+            "nl": "<b>Uitleg:</b><br>1. (Zelfstandig naamwoord) Betekent 'keer' in de datief (deze keer).<br>2. (Bezittelijk voornaamwoord) Verwijst naar eigendom van het onderwerp in datief.<br><b>Voorbeeld 1:</b> Deze <b>keer</b> ging het goed.<br><b>Voorbeeld 2:</b> Ze was bij <b>haar (eigen)</b> oma.",
+            "it": "<b>Spiegazione:</b><br>1. (Sostantivo) Significa 'volta/occasione' al dativo (es. questa volta).<br>2. (Pronome possessivo) Si riferisce al possesso del soggetto al dativo.<br><b>Esempio 1:</b> Questa <b>volta</b> è andata bene.<br><b>Esempio 2:</b> Lei era da <b>sua</b> nonna.",
+            "ja": "<b>説明:</b><br>1. (名詞) 与格で「回/機会」を意味します（例：今回は）。<br>2. (所有代名詞) 与格で主語の所有を示します。<br><b>例文 1:</b> 今<b>回</b>はうまくいきました。<br><b>例文 2:</b> 彼女は<b>（彼女自身の）</b>おばあちゃんと一緒にいました。",
+            "zh": "<b>解释:</b><br>1. (名词) 与格的“次/时候”（例如：这次）。<br>2. (物主代词) 在与格中指代主语的所属。<br><b>例句 1:</b> 这<b>次</b>进行得很顺利。<br><b>例句 2:</b> 她和<b>她的（自己的）</b>奶奶在一起。",
+            "ku": "<b>Ravekirin:</b><br>1. (Navdêr) Di datîvê de tê wateya 'car' (mînak: vê carê).<br>2. (Cînavê xwedîtiyê) Xwedîtiya kirdeyê di datîvê de nîşan dide.<br><b>Mînak 1:</b> Vê <b>carê</b> baş çû.<br><b>Mînak 2:</b> Ew li ba dapîra <b>xwe</b> bû.",
+            "lv": "<b>Paskaidrojums:</b><br>1. (Lietvārds) Nozīmē 'reize' datīvā (piemēram, šoreiz).<br>2. (Piederības vietniekvārds) Norāda uz subjekta piederību datīvā.<br><b>Piemērs 1:</b> Šo<b>reiz</b> gāja labi.<br><b>Piemērs 2:</b> Viņa bija pie <b>savas</b> vecmāmiņas.",
+            "lt": "<b>Paaiškinimas:</b><br>1. (Daiktavardis) Reiškia 'kartas' naudininke (pvz., šį kartą).<br>2. (Savybinis įvardis) Nurodo veiksnio nuosavybę naudininke.<br><b>Pavyzdys 1:</b> Šį <b>kartą</b> viskas praėjo gerai.<br><b>Pavyzdys 2:</b> Ji buvo pas <b>savo</b> močiutę.",
+            "no": "<b>Forklaring:</b><br>1. (Substantiv) Betyr 'gang' i dativ (f.eks. denne gang).<br>2. (Eiendomspronomen) Refererer til subjektets eierskap i dativ.<br><b>Eksempel 1:</b> Denne <b>gang(en)</b> gikk det bra.<br><b>Eksempel 2:</b> Hun var hos bestemoren <b>sin</b>.",
+            "fa": "<div dir='rtl'><b>توضیح:</b><br>1. (اسم) به معنی 'بار/دفعه' در حالت مفعولی با واسطه (مثلاً این بار).<br>2. (ضمیر ملکی) اشاره به مالکیت فاعل در حالت مفعولی با واسطه دارد.<br><b>مثال 1:</b> این <b>بار</b> خوب پیش رفت.<br><b>مثال 2:</b> او پیش مادربزرگ <b>خودش</b> بود.</div>",
+            "pt": "<b>Explicação:</b><br>1. (Substantivo) Significa 'vez/ocasião' no dativo (ex. desta vez).<br>2. (Pronome possessivo) Refere-se à posse do sujeito no dativo.<br><b>Exemplo 1:</b> Desta <b>vez</b> correu bem.<br><b>Exemplo 2:</b> Ela estava com a <b>sua (própria)</b> avó.",
+            "pl": "<b>Wyjaśnienie:</b><br>1. (Rzeczownik) Oznacza 'raz/kolej' w celowniku (np. tym razem).<br>2. (Zaimek dzierżawczy) Odnosi się do własności podmiotu w celowniku.<br><b>Przykład 1:</b> Tym <b>razem</b> poszło dobrze.<br><b>Przykład 2:</b> Ona była u <b>swojej</b> babci.",
+            "ro": "<b>Explicație:</b><br>1. (Substantiv) Înseamnă 'oară/dată' în dativ (de ex. de data asta).<br>2. (Pronume posesiv) Se referă la proprietatea subiectului în dativ.<br><b>Exemplu 1:</b> De <b>data</b> asta a mers bine.<br><b>Exemplu 2:</b> Ea era la bunica <b>sa</b>.",
+            "ru": "<b>Объяснение:</b><br>1. (Существительное) Означает 'раз' в дательном падеже (например, на этот раз).<br>2. (Притяжательное местоимение) Указывает на принадлежность подлежащему в дат. падеже.<br><b>Пример 1:</b> На этот <b>раз</b> всё прошло хорошо.<br><b>Пример 2:</b> Она была у <b>своей</b> бабушки.",
+            "es": "<b>Explicación:</b><br>1. (Sustantivo) Significa 'vez / ocasión' en dativo (ej. esta vez).<br>2. (Pronombre posesivo) Se refiere a la propiedad del sujeto en dativo.<br><b>Ejemplo 1:</b> Esta <b>vez</b> salió bien.<br><b>Ejemplo 2:</b> Ella estaba con <b>su (propia)</b> abuela.",
+            "sv": "<b>Förklaring:</b><br>1. (Substantiv) Betyder 'gång' i dativ (t.ex. den här gången).<br>2. (Possessivt pronomen) Refererar till subjektets ägande i dativ.<br><b>Exempel 1:</b> Den här <b>gången</b> gick det bra.<br><b>Exempel 2:</b> Hon var hos <b>sin</b> mormor/farmor.",
+            "th": "<b>คำอธิบาย:</b><br>1. (คำนาม) หมายถึง 'ครั้ง/เวลา' ในรูปรองกรรม (เช่น ครั้งนี้)<br>2. (สรรพนามแสดงความเป็นเจ้าของ) อ้างถึงการเป็นเจ้าของของประธาน ในรูปรองกรรม<br><b>ตัวอย่าง 1:</b> <b>ครั้ง</b>นี้ผ่านไปได้ด้วยดี<br><b>ตัวอย่าง 2:</b> เธออยู่กับคุณยาย/คุณย่า<b>ของเธอ (เอง)</b>",
+            "de": "<b>Erklärung:</b><br>1. (Substantiv) Bedeutet 'Mal' im Dativ (z. B. dieses Mal).<br>2. (Possessivpronomen) Bezieht sich auf den Besitz des Subjekts im Dativ.<br><b>Beispiel 1:</b> Dieses <b>Mal</b> lief es gut.<br><b>Beispiel 2:</b> Sie war bei <b>ihrer (eigenen)</b> Oma.",
+            "uk": "<b>Пояснення:</b><br>1. (Іменник) Означає 'раз' у давальному відмінку (наприклад, цього разу).<br>2. (Присвійний займенник) Вказує на приналежність підмету в давал. відмінку.<br><b>Приклад 1:</b> Цього <b>разу</b> все пройшло добре.<br><b>Приклад 2:</b> Вона була у <b>своєї</b> бабусі.",
+            "vi": "<b>Giải thích:</b><br>1. (Danh từ) Có nghĩa là 'lần/dịp' ở cách tặng (ví dụ: lần này).<br>2. (Đại từ sở hữu) Chỉ sự sở hữu của chủ ngữ ở cách tặng.<br><b>Ví dụ 1:</b> <b>Lần</b> này mọi chuyện đều ổn.<br><b>Ví dụ 2:</b> Cô ấy đã ở cùng bà <b>của mình</b>."
+        }
+    },
+    { 
+        text: "stundum", 
+        is_exp: "<b>Útskýring:</b> (Atviksorð) Eitthvað sem gerist við og við, en ekki alltaf.<br><b>Samheiti:</b> öðru hverju. <b>Andheiti:</b> alltaf, aldrei.<br><b>Dæmi:</b> Við förum <b>stundum</b> í bíó.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ظرف) شيء يحدث من وقت لآخر، وليس دائماً (أحياناً).<br><b>مضاد:</b> دائماً، أبداً.<br><b>مثال:</b> نذهب <b>أحياناً</b> إلى السينما.</div>",
+            "be": "<b>Uitleg:</b> (Bijwoord) Iets dat af en toe gebeurt, maar niet altijd (soms).<br><b>Antoniem:</b> altijd, nooit.<br><b>Voorbeeld:</b> We gaan <b>soms</b> naar de bioscoop.",
+            "da": "<b>Forklaring:</b> (Biord) Noget, der sker af og til, men ikke altid (nogle gange/undertiden).<br><b>Antonym:</b> altid, aldrig.<br><b>Eksempel:</b> Vi tager <b>nogle gange</b> i biografen.",
+            "en": "<b>Explanation:</b> (Adverb) Something that happens now and then, but not always (sometimes).<br><b>Antonym:</b> always, never.<br><b>Example:</b> We <b>sometimes</b> go to the cinema.",
+            "tl": "<b>Paliwanag:</b> (Pang-abay) Isang bagay na nangyayari paminsan-minsan, ngunit hindi palagi (minsan).<br><b>Kasalungat:</b> palagi, hindi kailanman.<br><b>Halimbawa:</b> <b>Minsan</b> ay pumupunta kami sa sinehan.",
+            "fi": "<b>Selitys:</b> (Adverbi) Jotain, mikä tapahtuu silloin tällöin, mutta ei aina (joskus).<br><b>Vastakohta:</b> aina, ei koskaan.<br><b>Esimerkki:</b> Käymme <b>joskus</b> elokuvissa.",
+            "fr": "<b>Explication:</b> (Adverbe) Quelque chose qui arrive de temps en temps, mais pas toujours (parfois).<br><b>Antonyme:</b> toujours, jamais.<br><b>Exemple:</b> Nous allons <b>parfois</b> au cinéma.",
+            "fo": "<b>Frágreiðing:</b> (Hjáorð) Okkurt sum hendir viðhvørt, men ikki altíð (viðhvørt).<br><b>Andheiti:</b> altíð, ongantíð.<br><b>Dømi:</b> Vit fara <b>viðhvørt</b> í biograf.",
+            "kl": "<b>Nassoqqaat:</b> (Udsagnsord) Ilaanni.<br><b>Assersuut:</b> <b>Ilaanni</b> isiginnaariartarpugut.",
+            "nl": "<b>Uitleg:</b> (Bijwoord) Iets dat af en toe gebeurt, maar niet altijd (soms).<br><b>Antoniem:</b> altijd, nooit.<br><b>Voorbeeld:</b> We gaan <b>soms</b> naar de bioscoop.",
+            "it": "<b>Spiegazione:</b> (Avverbio) Qualcosa che accade di tanto in tanto, ma non sempre (a volte).<br><b>Antonimo:</b> sempre, mai.<br><b>Esempio:</b> Andiamo <b>a volte</b> al cinema.",
+            "ja": "<b>説明:</b> (副詞) 時々起こるが、いつもではないこと（時々）。<br><b>対義語:</b> いつも、決して～ない。<br><b>例文:</b> 私たちは<b>時々</b>映画に行きます。",
+            "zh": "<b>解释:</b> (副词) 时而发生，但不总是发生的事情（有时）。<br><b>反义词:</b> 总是，从不。<br><b>例句:</b> 我们<b>有时</b>去电影院。",
+            "ku": "<b>Ravekirin:</b> (Hoker) Tiştek ku carinan diqewime, lê ne her gav (carinan).<br><b>Dijwate:</b> her gav, qet.<br><b>Mînak:</b> Em <b>carinan</b> diçin sînemayê.",
+            "lv": "<b>Paskaidrojums:</b> (Apstākļa vārds) Kaut kas, kas notiek šad un tad, bet ne vienmēr (dažreiz).<br><b>Antonīms:</b> vienmēr, nekad.<br><b>Piemērs:</b> Mēs <b>dažreiz</b> ejam uz kino.",
+            "lt": "<b>Paaiškinimas:</b> (Prievezmis) Kažkas, kas nutinka retkarčiais, bet ne visada (kartais).<br><b>Antonimas:</b> visada, niekada.<br><b>Pavyzdys:</b> Mes <b>kartais</b> einame į kiną.",
+            "no": "<b>Forklaring:</b> (Adverb) Noe som skjer av og til, men ikke alltid (noen ganger / iblant).<br><b>Antonym:</b> alltid, aldri.<br><b>Eksempel:</b> Vi drar <b>iblant (noen ganger)</b> på kino.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (قید) چیزی که گاه و بیگاه رخ می‌دهد، اما نه همیشه (گاهی اوقات).<br><b>متضاد:</b> همیشه، هرگز.<br><b>مثال:</b> ما <b>گاهی اوقات</b> به سینما می‌رویم.</div>",
+            "pt": "<b>Explicação:</b> (Advérbio) Algo que acontece de vez em quando, mas não sempre (às vezes).<br><b>Antônimo:</b> sempre, nunca.<br><b>Exemplo:</b> Nós <b>às vezes</b> vamos ao cinema.",
+            "pl": "<b>Wyjaśnienie:</b> (Przysłówek) Coś, co dzieje się od czasu do czasu, ale nie zawsze (czasami).<br><b>Antonim:</b> zawsze, nigdy.<br><b>Przykład:</b> <b>Czasami</b> chodzimy do kina.",
+            "ro": "<b>Explicație:</b> (Adverb) Ceva care se întâmplă din când în când, dar nu mereu (uneori).<br><b>Antonim:</b> întotdeauna, niciodată.<br><b>Exemplu:</b> Mergem <b>uneori</b> la cinema.",
+            "ru": "<b>Объяснение:</b> (Наречие) То, что случается время от времени, но не всегда (иногда).<br><b>Антоним:</b> всегда, никогда.<br><b>Пример:</b> Мы <b>иногда</b> ходим в кино.",
+            "es": "<b>Explicación:</b> (Adverbio) Algo que pasa de vez en cuando, pero no siempre (a veces).<br><b>Antónimo:</b> siempre, nunca.<br><b>Ejemplo:</b> Nosotros <b>a veces</b> vamos al cine.",
+            "sv": "<b>Förklaring:</b> (Adverb) Något som händer då och då, men inte alltid (ibland).<br><b>Antonym:</b> alltid, aldrig.<br><b>Exempel:</b> Vi går <b>ibland</b> på bio.",
+            "th": "<b>คำอธิบาย:</b> (คำกริยาวิเศษณ์) สิ่งที่เกิดขึ้นเป็นบางครั้งบางคราว แต่ไม่เสมอไป (บางครั้ง)<br><b>คำตรงข้าม:</b> เสมอ, ไม่เคย<br><b>ตัวอย่าง:</b> พวกเราไปดูหนังเป็น<b>บางครั้ง</b>",
+            "de": "<b>Erklärung:</b> (Adverb) Etwas, das ab und zu passiert, aber nicht immer (manchmal).<br><b>Antonym:</b> immer, nie.<br><b>Beispiel:</b> Wir gehen <b>manchmal</b> ins Kino.",
+            "uk": "<b>Пояснення:</b> (Прислівник) Те, що трапляється час від часу, але не завжди (іноді).<br><b>Антонім:</b> завжди, ніколи.<br><b>Приклад:</b> Ми <b>іноді</b> ходимо в кіно.",
+            "vi": "<b>Giải thích:</b> (Trạng từ) Điều gì đó xảy ra thỉnh thoảng, nhưng không phải luôn luôn (đôi khi).<br><b>Từ trái nghĩa:</b> luôn luôn, không bao giờ.<br><b>Ví dụ:</b> Chúng tôi <b>đôi khi</b> đi xem phim."
+        }
+    },
+    { 
+        text: "annað", 
+        is_exp: "<b>Útskýring:</b> (Óákveðið fornafn) Eitthvað sem er ekki það sama, eða eitthvað meira eða í viðbót (í hvorugkyni).<br><br><b>Dæmi:</b> Viltu eitthvað <b>annað</b> að borða?",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ضمير نكرة) شيء ليس هو نفسه، أو شيء إضافي (للمحايد).<br><b>مثال:</b> هل تريد شيئاً <b>آخر</b> لتأكله؟</div>",
+            "be": "<b>Uitleg:</b> (Onbepaald voornaamwoord) Iets dat niet hetzelfde is, of iets extra's (onzijdig).<br><b>Voorbeeld:</b> Wil je iets <b>anders</b> te eten?",
+            "da": "<b>Forklaring:</b> (Ubestemt stedord) Noget der ikke er det samme, eller noget mere (intetkøn).<br><b>Eksempel:</b> Vil du have noget <b>andet</b> at spise?",
+            "en": "<b>Explanation:</b> (Indefinite pronoun) Something that is not the same, or something extra (neuter).<br><b>Example:</b> Do you want something <b>else (other)</b> to eat?",
+            "tl": "<b>Paliwanag:</b> (Hindi tiyak na panghalip) Isang bagay na hindi pareho, o isang karagdagang bagay (walang kasarian).<br><b>Halimbawa:</b> Gusto mo ba ng <b>ibang</b> pagkain?",
+            "fi": "<b>Selitys:</b> (Epämääräinen pronomini) Jotain, mikä ei ole samaa, tai jotain ylimääräistä (neutri).<br><b>Esimerkki:</b> Haluatko jotain <b>muuta</b> syötävää?",
+            "fr": "<b>Explication:</b> (Pronom indéfini) Quelque chose qui n'est pas pareil, ou quelque chose de plus (neutre).<br><b>Exemple:</b> Veux-tu <b>autre chose</b> à manger ?",
+            "fo": "<b>Frágreiðing:</b> (Óvíst fornavn) Okkurt sum ikki er tað sama, ella okkurt meira (hvørkikyn).<br><b>Dømi:</b> Vilt tú hava okkurt <b>annað</b> at eta?",
+            "kl": "<b>Nassoqqaat:</b> (Fornavn) Allamik.<br><b>Assersuut:</b> <b>Allamik</b> nererusuppit?",
+            "nl": "<b>Uitleg:</b> (Onbepaald voornaamwoord) Iets dat niet hetzelfde is, of iets extra's (onzijdig).<br><b>Voorbeeld:</b> Wil je iets <b>anders</b> te eten?",
+            "it": "<b>Spiegazione:</b> (Pronome indefinito) Qualcosa che non è lo stesso, o qualcosa in più (neutro).<br><b>Esempio:</b> Vuoi qualcos'<b>altro</b> da mangiare?",
+            "ja": "<b>説明:</b> (不定代名詞) 同じではないもの、またはそれ以上のもの（中性形：他の/別の）。<br><b>例文:</b> 何か<b>他の（別の）</b>ものを食べたいですか？",
+            "zh": "<b>解释:</b> (不定代词) 不一样的东西，或者额外的某物（中性：其他的）。<br><b>例句:</b> 你想吃点<b>别的（其他的）</b>吗？",
+            "ku": "<b>Ravekirin:</b> (Cînavka nediyar) Tiştek ku ne heman e, an tiştek din e (nêtar).<br><b>Mînak:</b> Tu tiştekî <b>din</b> ji bo xwarinê dixwazî?",
+            "lv": "<b>Paskaidrojums:</b> (Nenoteiktais vietniekvārds) Kaut kas, kas nav tas pats, vai kaut kas papildu (nekatrā dzimtē).<br><b>Piemērs:</b> Vai tu gribi ēst kaut ko <b>citu</b>?",
+            "lt": "<b>Paaiškinimas:</b> (Neapibrėžtasis įvardis) Kažkas, kas nėra tas pats, ar kažkas papildomo (bevardė giminė).<br><b>Pavyzdys:</b> Ar nori kažko <b>kito</b> valgyti?",
+            "no": "<b>Forklaring:</b> (Ubestemt pronomen) Noe som ikke er det samme, eller noe mer (intetkjønn).<br><b>Eksempel:</b> Vil du ha noe <b>annet</b> å spise?",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (ضمیر نامعین) چیزی که یکسان نیست، یا چیز اضافه (خنثی: دیگر/متفاوت).<br><b>مثال:</b> آیا چیز <b>دیگری</b> برای خوردن می‌خواهی؟</div>",
+            "pt": "<b>Explicação:</b> (Pronome indefinido) Algo que não é o mesmo, ou algo a mais (neutro: outro/a).<br><b>Exemplo:</b> Você quer <b>outra coisa</b> para comer?",
+            "pl": "<b>Wyjaśnienie:</b> (Zaimek nieokreślony) Coś, co nie jest takie samo, lub coś dodatkowego (rodzaj nijaki: inne).<br><b>Przykład:</b> Chcesz coś <b>innego</b> do jedzenia?",
+            "ro": "<b>Explicație:</b> (Pronume nehotărât) Ceva care nu este la fel, sau ceva în plus (neutru: altceva).<br><b>Exemplu:</b> Vrei <b>altceva</b> de mâncare?",
+            "ru": "<b>Объяснение:</b> (Неопределенное местоимение) То, что не является тем же самым, или что-то дополнительное (средний род: другое).<br><b>Пример:</b> Хочешь что-нибудь <b>другое</b> поесть?",
+            "es": "<b>Explicación:</b> (Pronombre indefinido) Algo que no es igual, o algo extra (neutro: otro/otra cosa).<br><b>Ejemplo:</b> ¿Quieres <b>otra cosa</b> para comer?",
+            "sv": "<b>Förklaring:</b> (Obestämt pronomen) Något som inte är detsamma, eller något extra (neutrum: annat).<br><b>Exempel:</b> Vill du ha något <b>annat</b> att äta?",
+            "th": "<b>คำอธิบาย:</b> (สรรพนามไม่ชี้เฉพาะ) สิ่งที่ไม่เหมือนเดิม หรือสิ่งเพิ่มเติม (เพศกลาง: อื่นๆ)<br><b>ตัวอย่าง:</b> คุณต้องการกินอะไร<b>อย่างอื่น</b>ไหม?",
+            "de": "<b>Erklärung:</b> (Indefinitpronomen) Etwas, das nicht dasselbe ist, oder etwas Zusätzliches (Neutrum: anderes).<br><b>Beispiel:</b> Möchtest du etwas <b>anderes</b> essen?",
+            "uk": "<b>Пояснення:</b> (Неозначений займенник) Те, що не є тим самим, або щось додаткове (середній рід: інше).<br><b>Приклад:</b> Хочеш щось <b>інше</b> поїсти?",
+            "vi": "<b>Giải thích:</b> (Đại từ bất định) Một cái gì đó không giống nhau, hoặc một cái gì đó thêm vào (giống trung: cái khác).<br><b>Ví dụ:</b> Bạn có muốn ăn món gì <b>khác</b> không?"
+        }
+    },
+    { 
+        text: "sína", 
+        is_exp: "<b>Útskýring:</b> (Eignarfornafn) Vísar til eignar hjá aðalpersónu setningarinnar. Hér er það í þolfalli kvenkyns eintölu eða karlkyns fleirtölu.<br><br><b>Dæmi:</b> Hann fann bókina <b>sína</b>.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ضمير ملكية) يشير إلى ملكية الفاعل في الجملة. هنا في حالة النصب.<br><b>مثال:</b> لقد وجد كتابـ<b>ـه</b>.</div>",
+            "be": "<b>Uitleg:</b> (Bezittelijk voornaamwoord) Verwijst naar eigendom van het onderwerp in de zin. Hier in de accusatief.<br><b>Voorbeeld:</b> Hij vond <b>zijn (eigen)</b> boek.",
+            "da": "<b>Forklaring:</b> (Ejestedord) Viser ejerskab for grundleddet i sætningen. Her i akkusativ.<br><b>Eksempel:</b> Han fandt <b>sin</b> bog.",
+            "en": "<b>Explanation:</b> (Possessive pronoun) Refers to ownership by the subject of the sentence. Here in the accusative case.<br><b>Example:</b> He found <b>his (own)</b> book.",
+            "tl": "<b>Paliwanag:</b> (Panghalip na paari) Tumutukoy sa pagmamay-ari ng simuno sa pangungusap. Dito ay nasa accusative case.<br><b>Halimbawa:</b> Natagpuan niya ang <b>kanyang (sariling)</b> libro.",
+            "fi": "<b>Selitys:</b> (Omistuspronomini) Viittaa lauseen subjektin omistukseen. Tässä akkusatiivissa.<br><b>Esimerkki:</b> Hän löysi <b>oman</b> kirjansa.",
+            "fr": "<b>Explication:</b> (Pronom possessif) Fait référence à l'appartenance au sujet de la phrase. Ici à l'accusatif.<br><b>Exemple:</b> Il a trouvé <b>son</b> livre.",
+            "fo": "<b>Frágreiðing:</b> (Eignarfornavn) Vísir til eign hjá høvuðspersóni í setninginum. Her í hvønnfalli.<br><b>Dømi:</b> Hann fann bókina <b>sína</b>.",
+            "kl": "<b>Nassoqqaat:</b> (Fornavn) Nammineq pigisaq.<br><b>Assersuut:</b> Atuakkani nassaaraa (bókina <b>sína</b>).",
+            "nl": "<b>Uitleg:</b> (Bezittelijk voornaamwoord) Verwijst naar eigendom van het onderwerp in de zin. Hier in de accusatief.<br><b>Voorbeeld:</b> Hij vond <b>zijn (eigen)</b> boek.",
+            "it": "<b>Spiegazione:</b> (Pronome possessivo) Si riferisce al possesso da parte del soggetto della frase. Qui all'accusativo.<br><b>Esempio:</b> Lui ha trovato il <b>suo</b> libro.",
+            "ja": "<b>説明:</b> (所有代名詞) 文の主語の所有を示します。ここでは対格です。<br><b>例文:</b> 彼は<b>（彼自身の）</b>本を見つけた。",
+            "zh": "<b>解释:</b> (物主代词) 指代句子主语的所属关系。这里是宾格。<br><b>例句:</b> 他找到了<b>他的（自己的）</b>书。",
+            "ku": "<b>Ravekirin:</b> (Cînavê xwedîtiyê) Nîşan dide ku tiştek aîdî kirdeyê hevokê ye. Li vir di akûzatîvê de ye.<br><b>Mînak:</b> Wî pirtûka <b>xwe</b> dît.",
+            "lv": "<b>Paskaidrojums:</b> (Piederības vietniekvārds) Norāda uz teikuma priekšmeta īpašumu. Šeit akuzatīvā.<br><b>Piemērs:</b> Viņš atrada <b>savu</b> grāmatu.",
+            "lt": "<b>Paaiškinimas:</b> (Savybinis įvardis) Nurodo sakinio veiksnio nuosavybę. Čia galininke.<br><b>Pavyzdys:</b> Jis rado <b>savo</b> knygą.",
+            "no": "<b>Forklaring:</b> (Eiendomspronomen) Viser eierskap for subjektet i setningen. Her i akkusativ.<br><b>Eksempel:</b> Han fant boken <b>sin</b>.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (ضمیر ملکی) به مالکیت فاعل جمله اشاره دارد. در اینجا در حالت مفعولی است.<br><b>مثال:</b> او کتاب <b>خودش</b> را پیدا کرد.</div>",
+            "pt": "<b>Explicação:</b> (Pronome possessivo) Refere-se à posse pelo sujeito da frase. Aqui no caso acusativo.<br><b>Exemplo:</b> Ele encontrou o <b>seu (próprio)</b> livro.",
+            "pl": "<b>Wyjaśnienie:</b> (Zaimek dzierżawczy) Odnosi się do własności podmiotu zdania. Tutaj w bierniku.<br><b>Przykład:</b> On znalazł <b>swoją</b> książkę.",
+            "ro": "<b>Explicație:</b> (Pronume posesiv) Se referă la proprietatea subiectului propoziției. Aici în cazul acuzativ.<br><b>Exemplu:</b> El și-a găsit cartea (cartea <b>sa</b>).",
+            "ru": "<b>Объяснение:</b> (Притяжательное местоимение) Указывает на принадлежность подлежащему предложения. Здесь в винительном падеже.<br><b>Пример:</b> Он нашел <b>свою</b> книгу.",
+            "es": "<b>Explicación:</b> (Pronombre posesivo) Se refiere a la propiedad del sujeto de la oración. Aquí en caso acusativo.<br><b>Ejemplo:</b> Él encontró <b>su</b> libro.",
+            "sv": "<b>Förklaring:</b> (Possessivt pronomen) Visar ägarskap för subjektet i meningen. Här i ackusativ.<br><b>Exempel:</b> Han hittade <b>sin</b> bok.",
+            "th": "<b>คำอธิบาย:</b> (สรรพนามแสดงความเป็นเจ้าของ) อ้างถึงการเป็นเจ้าของโดยประธานของประโยค ในที่นี้อยู่ในรูปกรรม<br><b>ตัวอย่าง:</b> เขาพบหนังสือ<b>ของเขา (เอง)</b>",
+            "de": "<b>Erklärung:</b> (Possessivpronomen) Bezieht sich auf den Besitz des Subjekts des Satzes. Hier im Akkusativ.<br><b>Beispiel:</b> Er fand <b>sein (eigenes)</b> Buch.",
+            "uk": "<b>Пояснення:</b> (Присвійний займенник) Вказує на приналежність підмету речення. Тут у знахідному відмінку.<br><b>Приклад:</b> Він знайшов <b>свою</b> книгу.",
+            "vi": "<b>Giải thích:</b> (Đại từ sở hữu) Chỉ sự sở hữu của chủ ngữ trong câu. Ở đây nằm ở cách đối.<br><b>Ví dụ:</b> Anh ấy đã tìm thấy cuốn sách <b>của mình</b>."
+        }
+    },
+    { 
+        text: "alltaf", 
+        is_exp: "<b>Útskýring:</b> (Atviksorð) Eitthvað sem gerist á hverjum tíma eða sleitulaust.<br><b>Andheiti:</b> aldrei.<br><b>Dæmi:</b> Hann er <b>alltaf</b> glaður.",
+        translations: {
+            "ar": "<div dir='rtl'><b>الشرح:</b> (ظرف) شيء يحدث طوال الوقت أو باستمرار (دائماً).<br><b>مضاد:</b> aldrei (أبداً).<br><b>مثال:</b> هو <b>دائماً</b> سعيد.</div>",
+            "be": "<b>Uitleg:</b> (Bijwoord) Iets dat altijd gebeurt of onafgebroken doorgaat (altijd).<br><b>Antoniem:</b> aldrei (nooit).<br><b>Voorbeeld:</b> Hij is <b>altijd</b> blij.",
+            "da": "<b>Forklaring:</b> (Biord) Noget, der sker hele tiden eller uafbrudt (altid).<br><b>Antonym:</b> aldrei (aldrig).<br><b>Eksempel:</b> Han er <b>altid</b> glad.",
+            "en": "<b>Explanation:</b> (Adverb) Something that happens all the time or continuously (always).<br><b>Antonym:</b> aldrei (never).<br><b>Example:</b> He is <b>always</b> happy.",
+            "tl": "<b>Paliwanag:</b> (Pang-abay) Isang bagay na nangyayari sa lahat ng oras o tuloy-tuloy (palagi).<br><b>Kasalungat:</b> aldrei (hindi kailanman).<br><b>Halimbawa:</b> <b>Palagi</b> siyang masaya.",
+            "fi": "<b>Selitys:</b> (Adverbi) Jotain, mikä tapahtuu koko ajan tai jatkuvasti (aina).<br><b>Vastakohta:</b> aldrei (ei koskaan).<br><b>Esimerkki:</b> Hän on <b>aina</b> iloinen.",
+            "fr": "<b>Explication:</b> (Adverbe) Quelque chose qui se passe tout le temps ou continuellement (toujours).<br><b>Antonyme:</b> aldrei (jamais).<br><b>Exemple:</b> Il est <b>toujours</b> heureux.",
+            "fo": "<b>Frágreiðing:</b> (Hjáorð) Okkurt sum hendir hvørja ferð ella stinarliga (altíð).<br><b>Andheiti:</b> aldrei (ongantíð).<br><b>Dømi:</b> Hann er <b>altíð</b> glaður.",
+            "kl": "<b>Nassoqqaat:</b> (Udsagnsord) Tamatigut.<br><b>Assersuut:</b> <b>Tamatigut</b> qiimasarpoq.",
+            "nl": "<b>Uitleg:</b> (Bijwoord) Iets dat altijd gebeurt of onafgebroken doorgaat (altijd).<br><b>Antoniem:</b> aldrei (nooit).<br><b>Voorbeeld:</b> Hij is <b>altijd</b> blij.",
+            "it": "<b>Spiegazione:</b> (Avverbio) Qualcosa che accade tutto il tempo o continuamente (sempre).<br><b>Antonimo:</b> aldrei (mai).<br><b>Esempio:</b> Lui è <b>sempre</b> felice.",
+            "ja": "<b>説明:</b> (副詞) 常に、または継続的に起こること（いつも）。<br><b>対義語:</b> aldrei (決して～ない).<br><b>例文:</b> 彼は<b>いつも</b>幸せです。",
+            "zh": "<b>解释:</b> (副词) 一直发生或持续不断的事情（总是）。<br><b>反义词:</b> aldrei（从不）。<br><b>例句:</b> 他<b>总是</b>很高兴。",
+            "ku": "<b>Ravekirin:</b> (Hoker) Tiştek ku her dem an bi berdewamî diqewime (her gav).<br><b>Dijwate:</b> aldrei (qet).<br><b>Mînak:</b> Ew <b>her gav</b> dilxweş e.",
+            "lv": "<b>Paskaidrojums:</b> (Apstākļa vārds) Kaut kas, kas notiek visu laiku vai nepārtraukti (vienmēr).<br><b>Antonīms:</b> aldrei (nekad).<br><b>Piemērs:</b> Viņš <b>vienmēr</b> ir priecīgs.",
+            "lt": "<b>Paaiškinimas:</b> (Prievezmis) Kažkas, kas vyksta visą laiką arba nuolat (visada).<br><b>Antonimas:</b> aldrei (niekada).<br><b>Pavyzdys:</b> Jis <b>visada</b> yra laimingas.",
+            "no": "<b>Forklaring:</b> (Adverb) Noe som skjer hele tiden eller uavbrutt (alltid).<br><b>Antonym:</b> aldrei (aldri).<br><b>Eksempel:</b> Han er <b>alltid</b> glad.",
+            "fa": "<div dir='rtl'><b>توضیح:</b> (قید) چیزی که در همه زمان‌ها یا به طور مداوم رخ می‌دهد (همیشه).<br><b>متضاد:</b> aldrei (هرگز).<br><b>مثال:</b> او <b>همیشه</b> خوشحال است.</div>",
+            "pt": "<b>Explicação:</b> (Advérbio) Algo que acontece o tempo todo ou continuamente (sempre).<br><b>Antônimo:</b> aldrei (nunca).<br><b>Exemplo:</b> Ele está <b>sempre</b> feliz.",
+            "pl": "<b>Wyjaśnienie:</b> (Przysłówek) Coś, co dzieje się cały czas lub nieprzerwanie (zawsze).<br><b>Antonim:</b> aldrei (nigdy).<br><b>Przykład:</b> On jest <b>zawsze</b> szczęśliwy.",
+            "ro": "<b>Explicație:</b> (Adverb) Ceva care se întâmplă tot timpul sau continuu (întotdeauna/mereu).<br><b>Antonim:</b> aldrei (niciodată).<br><b>Exemplu:</b> El este <b>mereu</b> fericit.",
+            "ru": "<b>Объяснение:</b> (Наречие) То, что происходит все время или непрерывно (всегда).<br><b>Антоним:</b> aldrei (никогда).<br><b>Пример:</b> Он <b>всегда</b> счастлив.",
+            "es": "<b>Explicación:</b> (Adverbio) Algo que sucede todo el tiempo o continuamente (siempre).<br><b>Antónimo:</b> aldrei (nunca).<br><b>Ejemplo:</b> Él <b>siempre</b> está feliz.",
+            "sv": "<b>Förklaring:</b> (Adverb) Något som händer hela tiden eller oavbrutet (alltid).<br><b>Antonym:</b> aldrei (aldrig).<br><b>Exempel:</b> Han är <b>alltid</b> glad.",
+            "th": "<b>คำอธิบาย:</b> (คำกริยาวิเศษณ์) สิ่งที่เกิดขึ้นตลอดเวลาหรืออย่างต่อเนื่อง (เสมอ)<br><b>คำตรงข้าม:</b> aldrei (ไม่เคย)<br><b>ตัวอย่าง:</b> เขาเป็นคนร่าเริง<b>เสมอ</b>",
+            "de": "<b>Erklärung:</b> (Adverb) Etwas, das immer oder ununterbrochen passiert (immer).<br><b>Antonym:</b> aldrei (nie).<br><b>Beispiel:</b> Er ist <b>immer</b> glücklich.",
+            "uk": "<b>Пояснення:</b> (Прислівник) Те, що відбувається весь час або постійно (завжди).<br><b>Антонім:</b> aldrei (ніколи).<br><b>Приклад:</b> Він <b>завжди</b> щасливий.",
+            "vi": "<b>Giải thích:</b> (Trạng từ) Điều gì đó xảy ra mọi lúc hoặc liên tục (luôn luôn).<br><b>Từ trái nghĩa:</b> aldrei (không bao giờ).<br><b>Ví dụ:</b> Anh ấy <b>luôn</b> vui vẻ."
+        }
+    }
+];
+
+let userScores = new Array(exerciseData.length).fill(null);
+let userSpoken = new Array(exerciseData.length).fill("");
+
+let currentIndex = 0;
+let recognition;
+let isRecording = false;
+let autoAdvanceTimer = null;
+let hasDownloadedCert = false;
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'is-IS';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.onend = () => {
+        isRecording = false;
+        const btn = document.getElementById('record-btn');
+        if (btn) {
+            btn.innerText = "🎤 Tala";
+            btn.classList.remove('recording');
+        }
+        
+        const resDiv = document.getElementById('result');
+        if (resDiv && resDiv.innerText === "Hlusta...") {
+            resDiv.innerText = "";
+        }
+    };
+} else {
+    alert("Þessi vafri styður ekki talgreiningu. Notaðu Chrome eða Edge á tölvu.");
+}
+
+window.onload = () => { 
+    updateUI(); 
+};
+
+function updateProgress() {
+    let correctCount = 0;
+    for (let i = 0; i < userScores.length; i++) {
+        if (userScores[i] === 100) {
+            correctCount++;
+        }
+    }
+    const percent = (correctCount / exerciseData.length) * 100;
+    
+    const progressBar = document.getElementById('progress-bar');
+    if(progressBar) {
+        progressBar.style.width = percent + '%';
+    }
+    return correctCount;
+}
+
+function findNextUnfinished() {
+    for (let i = 0; i < userScores.length; i++) {
+        if (userScores[i] !== 100) {
+            currentIndex = i;
+            break;
+        }
+    }
+    
+    document.getElementById('app').innerHTML = `
+        <h1>Markorð: 141 - 150 algengustu í íslenskum námsbókum</h1>
+        <div class="progress-container"><div id="progress-bar"></div></div>
+        
+        <div class="lang-selector">
+            <label for="languageSelect"><b>🌍 Tungumál:</b></label>
+            <select id="languageSelect" onchange="updateUI()">
+                <option value="" selected disabled>Veldu tungumál...</option>
+                <option value="ar">Arabíska – العربية</option>
+                <option value="be">Belgíska (Flæmska) – Vlaams</option>
+                <option value="da">Danska – Dansk</option>
+                <option value="en">Enska – English</option>
+                <option value="tl">Filippseyska – Tagalog</option>
+                <option value="fi">Finnska – Suomi</option>
+                <option value="fr">Franska – Français</option>
+                <option value="fo">Færeyska – Føroyskt</option>
+                <option value="kl">Grænlenska – Kalaallisut</option>
+                <option value="nl">Hollenska – Nederlands</option>
+                <option value="it">Ítalska – Italiano</option>
+                <option value="ja">Japanska – 日本語</option>
+                <option value="zh">Kínverska – 中文</option>
+                <option value="ku">Kúrdíska – Kurdî</option>
+                <option value="lv">Lettneska – Latviešu</option>
+                <option value="lt">Litháíska – Lietuvių</option>
+                <option value="no">Norska – Norsk</option>
+                <option value="fa">Persneska – فارسی</option>
+                <option value="pt">Portúgalska – Português</option>
+                <option value="pl">Pólska – Polski</option>
+                <option value="ro">Rúmenska – Română</option>
+                <option value="ru">Rússneska – Русский</option>
+                <option value="es">Spænska – Español</option>
+                <option value="sv">Sænska – Svenska</option>
+                <option value="th">Tælenska – ภาษาไทย</option>
+                <option value="de">Þýska – Deutsch</option>
+                <option value="uk">Úkraínska – Українська</option>
+                <option value="vi">Víetnamska – Tiếng Việt</option>
+            </select>
+        </div>
+
+        <div id="counter"></div>
+        <div id="target"></div>
+        <div id="is-explanation"></div>
+        <br>
+        <button id="record-btn" class="btn" onclick="toggleRecord()">🎤 Tala</button>
+        <div id="spoken"></div>
+        <div id="result"></div>
+        <div id="media-box"></div>
+        <div class="nav-btns">
+            <button class="btn" style="background-color: #5f6368;" onclick="prevExercise()">⬅️ Fyrri</button>
+            <button class="btn" style="background-color: #5f6368;" onclick="nextExercise()">Næsta ➡️</button>
+        </div>
+        <div class="feedback-note">
+            Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+        </div>
+    `;
+    updateUI();
+}
+
+function updateUI() {
+    clearTimeout(autoAdvanceTimer); 
+    const correctCount = updateProgress();
+
+    if (currentIndex >= exerciseData.length) {
+        if (correctCount === exerciseData.length) {
+            document.getElementById('app').innerHTML = `
+                <div class="progress-container"><div id="progress-bar" style="width: 100%;"></div></div>
+                <h1 style="color: #34a853; font-size: 2.5em;">Frábært! Þú náðir 100% árangri! 🎉</h1>
+                <p style="font-size: 1.2em; color: #555;">Skrifaðu nafnið þitt hér að neðan til að sækja viðurkenningarskjalið þitt.</p>
+                <input type="text" id="studentName" placeholder="Skrifaðu nafnið þitt hér" autocomplete="off" ${hasDownloadedCert ? 'disabled' : ''}><br>
+                <button id="cert-btn" class="btn" style="background-color: ${hasDownloadedCert ? '#5f6368' : '#1a73e8'}; font-size: 1.5em; padding: 15px 30px; margin-top: 10px; cursor: ${hasDownloadedCert ? 'not-allowed' : 'pointer'}; opacity: ${hasDownloadedCert ? '0.7' : '1'};" onclick="downloadCert()" ${hasDownloadedCert ? 'disabled' : ''}>
+                    ${hasDownloadedCert ? '✅ Skjal sótt' : '🏆 Sækja viðurkenningarskjal'}
+                </button>
+                <br><br>
+                <button class="btn" style="background-color: #5f6368;" onclick="location.reload()">🔄 Byrja nýja umferð</button>
+                <div class="feedback-note">
+                    Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+                </div>
+            `;
+        } else {
+            document.getElementById('app').innerHTML = `
+                <div class="progress-container"><div id="progress-bar" style="width: ${(correctCount/exerciseData.length)*100}%;"></div></div>
+                <h1 style="color: #fbbc05; font-size: 2em;">Þú ert næstum því búin(n)!</h1>
+                <p style="font-size: 1.2em;">Þú hefur klárað ${correctCount} af${exerciseData.length} orðum með 100% árangri.</p>
+                <p style="font-size: 1.1em; color: #555;">Farðu til baka og reyndu aftur við þau orð sem vantaði upp á til að fá skjalið.</p>
+                <button class="btn" style="background-color: #fbbc05; color: #000;" onclick="findNextUnfinished()">➡️ Fara á orð sem vantar</button>
+                <div class="feedback-note">
+                    Vinsamlegast sendið ábendingar á <a href="mailto:dgu@fb.is">dgu@fb.is</a>
+                </div>
+            `;
+        }
+        return;
+    }
+
+    const curr = exerciseData[currentIndex];
+    
+    const langSelect = document.getElementById('languageSelect');
+    const selectedLang = langSelect ? langSelect.value : '';
+
+    document.getElementById('target').innerHTML = curr.text;
+    document.getElementById('is-explanation').innerHTML = curr.is_exp;
+    document.getElementById('counter').innerText = `Orð ${currentIndex + 1} af${exerciseData.length}`;
+    
+    if (!selectedLang) {
+        document.getElementById('media-box').innerHTML = "<i>Veldu tungumál úr listanum að ofan til að sjá þýðingu.</i>";
+    } else {
+        document.getElementById('media-box').innerHTML = curr.translations[selectedLang] || "Þýðing ekki til / Translation missing";
+    }
+
+    const savedScore = userScores[currentIndex];
+    const savedText = userSpoken[currentIndex];
+
+    if (savedScore !== null) {
+        document.getElementById('result').innerText = `Einkunn: ${savedScore}%`;
+        document.getElementById('spoken').innerText = `Þú sagðir: "${savedText}"`;
+    } else {
+        document.getElementById('result').innerText = "";
+        document.getElementById('spoken').innerText = "";
+    }
+}
+
+function nextExercise() {
+    currentIndex++;
+    updateUI();
+}
+
+function prevExercise() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateUI();
+    }
+}
+
+function toggleRecord() {
+    if (!recognition) return;
+
+    const btn = document.getElementById('record-btn');
+    if (isRecording) {
+        recognition.stop();
+    } else {
+        try {
+            recognition.start();
+            isRecording = true;
+            btn.innerText = "🛑 Hlusta...";
+            btn.classList.add('recording');
+            document.getElementById('result').innerText = "Hlusta...";
+            document.getElementById('spoken').innerText = "";
+        } catch(e) {
+            console.log("Villa í upptöku: " + e);
+        }
+    }
+}
+
+if (recognition) {
+    recognition.onresult = (event) => {
+        let spoken = event.results[0][0].transcript;
+        spoken = spoken.trim().toLowerCase(); 
+
+        document.getElementById('spoken').innerText = `Þú sagðir: "${spoken}"`;
+        
+        const targetWord = exerciseData[currentIndex].text.toLowerCase();
+        
+        let score = (spoken === targetWord) ? 100 : 0;
+        
+        if (spoken.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g,"").trim() === targetWord) {
+            score = 100;
+        }
+        
+        document.getElementById('result').innerText = `Einkunn: ${score}%`;
+
+        userScores[currentIndex] = score;
+        userSpoken[currentIndex] = spoken;
+        
+        updateProgress();
+
+        if (score === 100) {
+            autoAdvanceTimer = setTimeout(() => {
+                nextExercise();
+            }, 1000); 
+        }
+    };
+}
+
+function downloadCert() {
+    if (hasDownloadedCert) return; 
+
+    const studentNameInput = document.getElementById('studentName');
+    const studentName = studentNameInput ? studentNameInput.value.trim() : "";
+    
+    if (studentName === "") {
+        alert("Vinsamlegast skrifaðu nafnið þitt fyrst!");
+        return;
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 900;
+    canvas.height = 600;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.strokeStyle = '#1a73e8';
+    ctx.lineWidth = 15;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+    ctx.strokeStyle = '#fbbc05';
+    ctx.lineWidth = 5;
+    ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+    
+    ctx.fillStyle = '#1a73e8';
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 50px Arial';
+    ctx.fillText('Viðurkenning', canvas.width / 2, 140);
+    
+    ctx.fillStyle = '#333333';
+    ctx.font = '24px Arial';
+    ctx.fillText('Þetta skjal staðfestir að', canvas.width / 2, 220);
+    
+    ctx.fillStyle = '#000000';
+    ctx.font = 'bold 45px Arial';
+    ctx.fillText(studentName, canvas.width / 2, 290);
+    
+    ctx.fillStyle = '#333333';
+    ctx.font = '24px Arial';
+    ctx.fillText('hefur lokið æfingunni með glæsibrag:', canvas.width / 2, 360);
+
+    ctx.fillStyle = '#1a73e8';
+    ctx.font = 'bold 26px Arial';
+    ctx.fillText('Markorð: 141 - 150 algengustu í íslenskum námsbókum', canvas.width / 2, 420);
+    
+    ctx.fillStyle = '#34a853';
+    ctx.font = 'italic 28px Arial';
+    ctx.fillText('Frábær árangur! Haltu áfram að æfa þig.', canvas.width / 2, 490);
+
+    const dateString = new Date().toLocaleDateString('is-IS');
+    ctx.fillStyle = '#666666';
+    ctx.font = '18px Arial';
+    ctx.fillText('Dagsetning: ' + dateString, canvas.width / 2, 540);
+    
+    const link = document.createElement('a');
+    link.download = `Vidurkenning_${studentName.replace(/\s+/g, '_')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    
+    hasDownloadedCert = true;
+    const btn = document.getElementById('cert-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "✅ Skjal sótt";
+        btn.style.backgroundColor = "#5f6368";
+        btn.style.cursor = "not-allowed";
+        btn.style.opacity = "0.7";
+    }
+    if (studentNameInput) {
+        studentNameInput.disabled = true;
+    }
+}
+</script>
+
+</body>
+</html>
